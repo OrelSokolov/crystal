@@ -78,7 +78,8 @@ class Crystal::Program
     flags.add "unix" if target.unix?
     flags.add "win32" if target.win32?
 
-    flags.add "darwin" if target.macos?
+    flags.add "darwin" if target.macos? || target.ios?
+    flags.add "ios" if target.ios?
     if target.freebsd?
       flags.add "freebsd"
       flags.add "freebsd#{target.freebsd_version}"

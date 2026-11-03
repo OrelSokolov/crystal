@@ -77,7 +77,7 @@ class Crystal::Codegen::Target
 
   def os_name
     case self
-    when .macos?
+    when .macos?, .ios?
       "darwin"
     when .freebsd?
       "freebsd"
@@ -114,6 +114,13 @@ class Crystal::Codegen::Target
 
   def macos?
     @environment.starts_with?("darwin") || @environment.starts_with?("macos")
+  end
+
+  # iOS: `arm64-apple-ios17.0-simulator`, `arm64-apple-ios`, and Mac Catalyst
+  # (`arm64-apple-ios-macabi`). Shares the darwin lib_c bindings and uses the
+  # same `_`-prefixed symbol convention as macOS.
+  def ios?
+    @environment.starts_with?("ios")
   end
 
   def freebsd?
@@ -161,7 +168,7 @@ class Crystal::Codegen::Target
   end
 
   def unix?
-    macos? || bsd? || linux? || wasi? || solaris?
+    macos? || ios? || bsd? || linux? || wasi? || solaris?
   end
 
   def gnu?

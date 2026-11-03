@@ -137,9 +137,14 @@ end
 #
 # On Windows the actual entry point is `wmain`, but there is no need to redefine
 # that. See the file required below for details.
+#
+# On iOS the entry point is defined in `crystal/system/unix/main.cr` as
+# `crystal_main_entry` (the process `main` belongs to the UIKit driver).
+{% unless flag?(:ios) %}
 fun main(argc : Int32, argv : UInt8**) : Int32
   Crystal.main(argc, argv)
 end
+{% end %}
 
 {% if flag?(:interpreted) %}
   # the interpreter doesn't call Crystal.main(&)
